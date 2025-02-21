@@ -13,10 +13,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Load and cache dependencies
-        uses: ./.github/actions/cached_deps
+        uses: ./angular-app/.github/actions/cached_deps
 
       - name: Lint code
-        run: npm run lint
+        run: npm run lint --prefix angular-app
 
   test:
     runs-on: ubuntu-latest
@@ -25,18 +25,18 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Load and cache dependencies
-        uses: ./.github/actions/cached_deps
+        uses: ./angular-app/.github/actions/cached_deps
 
       - name: Test code
         id: run-tests
-        run: npm run test
+        run: npm run test --prefix angular-app
 
       - name: Upload test report
         if: failure() && steps.run-tests.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
           name: test-report
-          path: test.json
+          path: angular-app/test.json
 
   build:
     needs: test
@@ -46,16 +46,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefix angular-app
 
       - name: Build website
-        run: npm run build
+        run: npm run build --prefix angular-app
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: dist-files
-          path: dist
+          path: angular-app/dist
 
   deploy:
     needs: build
@@ -68,10 +68,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist-files
-          path: ./dist
+          path: angular-app/dist
 
       - name: Output contents
-        run: ls -l ./dist
+        run: ls -l angular-app/dist
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
@@ -82,10 +82,10 @@ jobs:
 
       - name: Deploy site
         id: deploy
-        uses: ./.github/actions/deployment
+        uses: ./angular-app/.github/actions/deployment
         with:
           bucketName: myangular-dep
-          distFiles: ./dist
+          distFiles: angular-app/dist
 
       - name: Output deployment link
         run: echo "Deployed URL: ${{ steps.deploy.outputs.URL }}"

@@ -1,5 +1,5 @@
-const core = require('@actions/core'); // Get inputs and set outputs
-const exec = require('@actions/exec'); // Interact with the CLI
+const core = require('@actions/core/lib/core'); // Get inputs and set outputs
+const exec = require('@actions/exec/lib/exec'); // Interact with the CLI
 
 async function run() {
   try {
