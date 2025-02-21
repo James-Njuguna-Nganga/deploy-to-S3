@@ -1,0 +1,15 @@
+{
+  "name": "deploy-to-s3",
+  "version": "1.0.0",
+  "description": "deploying to S3",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "James Njuguna",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/exec": "^1.1.1"
+  }
+}

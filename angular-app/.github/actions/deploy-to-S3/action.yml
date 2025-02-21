@@ -1,0 +1,22 @@
+name: "Deploy Angular App to S3"
+description: "Syncs the Angular build folder to an S3 bucket"
+
+inputs:
+  bucketName:
+    description: "S3 Bucket Name"
+    required: true
+  bucketRegion:
+    description: "AWS Region"
+    required: true
+  distFiles:
+    description: "Path to the built Angular files"
+    required: false
+    default: "dist/my-angular-app"
+
+outputs:
+  URL:
+    description: "S3 Website URL"
+
+runs:
+  using: "node16"
+  main: "index.js"
